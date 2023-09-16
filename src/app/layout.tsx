@@ -1,11 +1,14 @@
 "use client"
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 
-import { MantineProvider } from '@mantine/core';
+import {AppShell, Navbar, Header, createStyles, MantineProvider } from '@mantine/core';
 
-const inter = Inter({ subsets: ['latin'] })
+const useStyles = createStyles((theme) => ({
+  blackbg: {
+    backgroundColor: "black"
+  },
+}));
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,10 +20,23 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const { classes } = useStyles();
   return (
     <html lang="en">
       <MantineProvider withGlobalStyles withNormalizeCSS>
-        <body className={inter.className}>{children}</body>
+        <body className={classes.blackbg}>
+          <AppShell 
+          padding="md"
+          navbar={<Navbar className={classes.blackbg} width={{ base: 300 }} p="xs">{/* Navbar content */}</Navbar>}
+          header={<Header className={classes.blackbg} height={60} p="xs">{/* Header content */}</Header>}
+          styles={()=>(
+          {
+           main:{ backgroudColor: "black"}
+          })}
+          >
+            {children}
+          </AppShell>
+        </body>
       </MantineProvider>
     </html>
   )

@@ -2,19 +2,36 @@
 import styles from './page.module.css'
 import { useEffect, useState } from 'react'
 import { delay } from '@/utils'
-import { createStyles, Avatar, Text, Group } from '@mantine/core';
+import { createStyles, Loader, Flex } from '@mantine/core';
+import PlayerRankBoard from '@/components/playerRankBoard';
+import { PlayerCardInterface } from '@/interfaces/intex';
+import PlayerCard from '@/components/playerCard';
 
+
+const useStyles = createStyles((theme) => ({
+  itemList: {
+    marginBottom: '5px'
+  },
+
+  list: {
+    width: '50vw',
+    margin: '0 auto'
+  },
+}));
 
 export default function Home() {
   const [fullLeaderBoard, setFullLeaderBoard] = useState([])
-  const [leaderboard, setLeaderBoard] = useState([] as (never[] | object[]))
+  const [leaderboard, setLeaderBoard] = useState<PlayerCardInterface[]>([]);
+  const [firstLoad, setFirstLoad] = useState(true)
   const [loadMore, setLoadMore] = useState(false)
+  const { classes } = useStyles();
   useEffect(()=> {
     const getData = ()=> {
       fetch('https://api.henrikdev.xyz/valorant/v2/leaderboard/na').then(res => res.json()).then(data => {
         //endpoint retrieves 10k players, seems is not returning by 1k as expected
         setFullLeaderBoard(data.players)
         setLeaderBoard(data.players.slice(0,1000))
+        setFirstLoad(false)
       })
     }
     getData()
@@ -46,23 +63,10 @@ export default function Home() {
   },[loadMore])
  
   return (
-  <ul>
-    {leaderboard.map((player:any)=>(
-      <li key={player.leaderboardRank}>
-        <Group noWrap>
-        <Avatar radius="md" />
-        <div>
-        <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-        {player.leaderboardRank}
-        </Text>
-        <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-        {player.gameName}
-        </Text>
-        </div>
-        </Group>
-      </li> 
-    ))}
-  </ul>
+    <Flex direction="column">
+      <PlayerRankBoard playersList={leaderboard} isLoading={firstLoad}/>
+      { loadMore ? <Loader/> : null}
+  </Flex>
   )
 }
 
