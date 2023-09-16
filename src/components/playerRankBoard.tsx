@@ -1,6 +1,9 @@
+"use client"
 import { createStyles,Grid, Text, Skeleton } from '@mantine/core';
-import { PlayerCardInterface } from '@/interfaces/intex';
+import { useRouter } from 'next/navigation'
+import { PlayerCardInterface } from '@/interfaces';
 import PlayerCard from './playerCard';
+import { setCookie } from '@/utils';
 
 const useStyles = createStyles((theme) => ({
   itemList: {
@@ -20,8 +23,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function PlayerRankBoard ({playersList, isLoading=false}:{playersList:PlayerCardInterface[], isLoading:boolean}){
+  const router = useRouter()
   const { classes } = useStyles();
   const emptyArr = new Array(10).fill('')
+  const navigateTo = (id:string) => {
+    const player = playersList.find((player)=> player.puuid === id)
+    setCookie(player?.puuid, JSON.stringify(player))
+    router.push(`player/${player?.puuid}`)
+
+  }
   return (
     <>
       <div className={classes.tableHeader}>
@@ -54,13 +64,16 @@ export default function PlayerRankBoard ({playersList, isLoading=false}:{players
       <ul>
       {playersList.map((player:any)=>(
           <li className={classes.itemList} key={player.leaderboardRank}>
-            <PlayerCard
-            rankPosition={player.leaderboardRank}
-            nickName={player.gameName}
-            raiting={player.rankedRating}
-            wins={player.numberOfWins}
-            banStatus={player.IsBanned}
-            />
+            <div onClick={()=> navigateTo(player.puuid)}>
+              <PlayerCard
+              rankPosition={player.leaderboardRank}
+              nickName={player.gameName}
+              raiting={player.rankedRating}
+              wins={player.numberOfWins}
+              banStatus={player.IsBanned}
+              />
+            </div>
+            
           </li> 
         ))}
       </ul>}

@@ -1,5 +1,5 @@
 import { createStyles, Avatar, Text, Grid, Badge } from '@mantine/core';
-import { PlayerCardInterface } from '@/interfaces/intex';
+import { PlayerCardInterface } from '@/interfaces';
 
 
 const useStyles = createStyles((theme) => ({

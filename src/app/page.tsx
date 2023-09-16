@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import { delay } from '@/utils'
 import { createStyles, Loader, Flex } from '@mantine/core';
 import PlayerRankBoard from '@/components/playerRankBoard';
-import { PlayerCardInterface } from '@/interfaces/intex';
-import PlayerCard from '@/components/playerCard';
+import { PlayerCardInterface } from '@/interfaces';
 
 
 const useStyles = createStyles((theme) => ({
@@ -65,8 +64,18 @@ export default function Home() {
   return (
     <Flex direction="column">
       <PlayerRankBoard playersList={leaderboard} isLoading={firstLoad}/>
-      { loadMore ? <Loader/> : null}
-  </Flex>
+        { loadMore ? 
+        <Flex
+          justify="center"
+          align="center"
+          direction="row"
+        >
+          <Loader/>
+        </Flex> 
+        :
+        null}
+      
+    </Flex>
   )
 }
 

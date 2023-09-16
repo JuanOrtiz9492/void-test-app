@@ -4,6 +4,7 @@ interface PlayerCardInterface {
   raiting:string,
   wins:string,
   banStatus:boolean
+  [key:string]:any
 }
 
 export { PlayerCardInterface }
