@@ -7,4 +7,16 @@ interface PlayerCardInterface {
   [key:string]:any
 }
 
-export { PlayerCardInterface }
+interface MatchInformation {
+  map: string,
+  hasWon:boolean,
+  KDA: string | number,
+  agent: string,
+  agentSrc:string,
+  gameDate:string,
+  gameDuration:number,
+  playersImage:string,
+  playersNick:string
+}
+
+export type { PlayerCardInterface, MatchInformation }

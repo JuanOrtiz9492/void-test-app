@@ -1,5 +1,4 @@
 "use client"
-import styles from './page.module.css'
 import { useEffect, useState } from 'react'
 import { delay } from '@/utils'
 import { createStyles, Loader, Flex } from '@mantine/core';
