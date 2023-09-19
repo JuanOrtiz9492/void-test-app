@@ -1,28 +1,16 @@
 "use client"
 import { useEffect, useState } from 'react'
 import { delay } from '@/utils'
-import { createStyles, Loader, Flex } from '@mantine/core';
+import { Loader, Flex } from '@mantine/core';
 import PlayerRankBoard from '@/components/playerRankBoard';
 import { PlayerCardInterface } from '@/interfaces';
-
-
-const useStyles = createStyles((theme) => ({
-  itemList: {
-    marginBottom: '5px'
-  },
-
-  list: {
-    width: '50vw',
-    margin: '0 auto'
-  },
-}));
+import { useWindowEvent } from '@mantine/hooks';
 
 export default function Home() {
   const [fullLeaderBoard, setFullLeaderBoard] = useState([])
   const [leaderboard, setLeaderBoard] = useState<PlayerCardInterface[]>([]);
   const [firstLoad, setFirstLoad] = useState(true)
   const [loadMore, setLoadMore] = useState(false)
-  const { classes } = useStyles();
   useEffect(()=> {
     const getData = ()=> {
       fetch('https://api.henrikdev.xyz/valorant/v2/leaderboard/na').then(res => res.json()).then(data => {
@@ -35,21 +23,16 @@ export default function Home() {
     getData()
   },[])
 
-  useEffect(() => {
-    function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 100
-      ) {
-        setLoadMore(true)
-      }
+  function handleScroll() {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 100
+    ) {
+      setLoadMore(true)
     }
-    window.addEventListener("scroll", handleScroll);
-  
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  }
+  useWindowEvent('scroll', handleScroll)
+
   useEffect(()=>{
     if(loadMore){
       delay().then(()=>{

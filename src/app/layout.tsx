@@ -2,11 +2,23 @@
 import './globals.css'
 import type { Metadata } from 'next'
 
-import {AppShell, Navbar, Header, createStyles, MantineProvider } from '@mantine/core';
+import {AppShell, Navbar, Header, createStyles, MantineProvider, Flex } from '@mantine/core';
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   blackbg: {
-    backgroundColor: "black"
+    backgroundColor: "black",
+  },
+  linkTitleStyle: {
+    color: "white",
+    textTransform: "uppercase",
+    fontSize: "2em",
+    margin: "0 auto"
+  },
+  linkStyle: {
+    color: "white",
+    textTransform: "uppercase",
+    fontSize: "1em",
   },
 }));
 
@@ -27,8 +39,17 @@ export default function RootLayout({
         <body className={classes.blackbg}>
           <AppShell 
           padding="md"
-          navbar={<Navbar className={classes.blackbg} width={{ base: 300 }} p="xs">{/* Navbar content */}</Navbar>}
-          header={<Header className={classes.blackbg} height={60} p="xs">{/* Header content */}</Header>}
+          navbar={<Navbar className={classes.blackbg} width={{ base: 300 }} p="xs">{
+            <Flex direction="column" justify="center" align="center" >
+              <Link className={classes.linkStyle} href="/">Home</Link>
+              <Link className={classes.linkStyle} href="/posts">Posts</Link>
+            </Flex>}
+            </Navbar>}
+          header={<Header className={classes.blackbg} height={60} p="xs">{
+            <Flex>
+              <Link href="/" className={classes.linkTitleStyle}>Void GG</Link>
+            </Flex>
+          }</Header>}
           styles={()=>(
           {
            main:{ backgroudColor: "black"}

@@ -15,8 +15,13 @@ interface MatchInformation {
   agentSrc:string,
   gameDate:string,
   gameDuration:number,
-  playersImage:string,
-  playersNick:string
 }
 
-export type { PlayerCardInterface, MatchInformation }
+interface PostInterface {
+  authorAvatar: string,
+  authorName:string,
+  postImage:string,
+  postText: string,
+  id: string | number
+}
+export type { PlayerCardInterface, MatchInformation, PostInterface }

@@ -1,39 +1,69 @@
-import { createStyles, Paper, Text, Avatar, Group } from '@mantine/core';
+import { createStyles, Text, Avatar, Group, Flex } from '@mantine/core';
 import { MatchInformation } from '@/interfaces';
 
 const useStyles = createStyles((theme) => ({
-  itemList: {
-    marginBottom: '5px'
+  container: {
+    borderRadius: '10px',
+    marginBottom: '0.8em',
+    padding: '0.8em 1em'
   },
-
-  list: {
-    width: '50vw',
-    margin: '0 auto'
+  victory: {
+    border: '4px solid #2B8A40',
+    backgroundColor:'rgba(43, 138, 64, 0.7)'
   },
+  defeat: {
+    border: '4px solid #BD1910',
+    backgroundColor:'rgba(133, 27, 27, 0.7)',
+  }
 }));
 
+function formatTieme(seconds:number) {
+  // Ensure seconds is a positive number
+  if (typeof seconds !== 'number' || seconds < 0) {
+    return "Invalid input";
+  }
 
-export default function MatchCard ({map, hasWon, KDA, agent, agentSrc, gameDate, gameDuration, playersImage, playersNick}:MatchInformation) {
+  // Calculate minutes and seconds
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  // Format the result as "mm:ss"
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+export default function MatchCard ({map, hasWon, KDA, agent, agentSrc, gameDate, gameDuration}:MatchInformation) {
   const { classes } = useStyles();
   return (
 
-    <Paper>
-      <Text>Map:</Text>
-      <Text>{map}</Text>
-      <Avatar src={playersImage} alt={playersNick}/>
-      <Text>{hasWon ? 'Victory' : 'Defeat'}</Text>
-      <Text>KDA:</Text>
-      <Text>{KDA}</Text>
-      <Text>Agent Played:</Text>
+    <div className={`${classes.container} ${hasWon? classes.victory : classes.defeat}`}>
       <Group>
-        <Avatar src={agentSrc} alt={agent}/>
-        <Text>{agent}</Text>
+        <Text>Agent Played:</Text>
+        <Flex>
+          <Avatar src={agentSrc} alt={agent}/>
+          <Text>{agent}</Text>
+        </Flex>
       </Group>
+      <Group>
+        <Text>Map:</Text>
+        <Text>{map}</Text>
+      </Group>
+      <Group>
+        <Text>KDA:</Text>
+        <Text>{KDA}</Text>
+      </Group>
+      <Text>{hasWon ? 'Victory' : 'Defeat'}</Text>
+      <Group>
         <Text>Game played at:</Text>
         <Text>{gameDate}</Text>
+      </Group>
+      <Group>
         <Text>Game duration:</Text>
-        <Text>{gameDuration}</Text>
-    </Paper>
+        <Text>{formatTieme(gameDuration)}</Text>
+      </Group>        
+    </div>
   )
 }
 

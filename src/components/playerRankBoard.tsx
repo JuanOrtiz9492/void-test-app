@@ -1,5 +1,6 @@
 "use client"
 import { createStyles,Grid, Text, Skeleton } from '@mantine/core';
+import { useHover } from '@mantine/hooks';
 import { useRouter } from 'next/navigation'
 import { PlayerCardInterface } from '@/interfaces';
 import PlayerCard from './playerCard';
@@ -19,6 +20,9 @@ const useStyles = createStyles((theme) => ({
   },
   tableHeaderText:{
     color:'white'
+  },
+  hovered: {
+    cursor: 'pointer'
   }
 }));
 
@@ -64,7 +68,7 @@ export default function PlayerRankBoard ({playersList, isLoading=false}:{players
       <ul>
       {playersList.map((player:any)=>(
           <li className={classes.itemList} key={player.leaderboardRank}>
-            <div onClick={()=> navigateTo(player.puuid)}>
+            <div className={classes.hovered} onClick={()=> navigateTo(player.puuid)}>
               <PlayerCard
               rankPosition={player.leaderboardRank}
               nickName={player.gameName}
