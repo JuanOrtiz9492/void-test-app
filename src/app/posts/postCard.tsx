@@ -30,7 +30,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function PostCard ({authorAvatar, authorName, postImage, postText, id}:PostInterface) {
-  console.log('re render')
   const { classes } = useStyles();
   return(
     <Flex className={classes.postContainer} direction="column">

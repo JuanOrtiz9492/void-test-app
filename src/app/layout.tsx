@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 
 import {AppShell, Navbar, Header, createStyles, MantineProvider, Flex } from '@mantine/core';
+import { Providers } from './GlobalRedux/provider';
 import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
@@ -36,28 +37,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <MantineProvider withGlobalStyles withNormalizeCSS>
-        <body className={classes.blackbg}>
-          <AppShell 
-          padding="md"
-          navbar={<Navbar className={classes.blackbg} width={{ base: 300 }} p="xs">{
-            <Flex direction="column" justify="center" align="center" >
-              <Link className={classes.linkStyle} href="/">Home</Link>
-              <Link className={classes.linkStyle} href="/posts">Posts</Link>
-            </Flex>}
-            </Navbar>}
-          header={<Header className={classes.blackbg} height={60} p="xs">{
-            <Flex>
-              <Link href="/" className={classes.linkTitleStyle}>Void GG</Link>
-            </Flex>
-          }</Header>}
-          styles={()=>(
-          {
-           main:{ backgroudColor: "black"}
-          })}
-          >
-            {children}
-          </AppShell>
-        </body>
+        <Providers>
+          <body className={classes.blackbg}>
+            <AppShell 
+            padding="md"
+            navbar={<Navbar className={classes.blackbg} width={{ base: 300 }} p="xs">{
+              <Flex direction="column" justify="center" align="center" >
+                <Link className={classes.linkStyle} href="/">Home</Link>
+                <Link className={classes.linkStyle} href="/posts">Posts</Link>
+              </Flex>}
+              </Navbar>}
+            header={<Header className={classes.blackbg} height={60} p="xs">{
+              <Flex>
+                <Link href="/" className={classes.linkTitleStyle}>Void GG</Link>
+              </Flex>
+            }</Header>}
+            styles={()=>(
+            {
+            main:{ backgroudColor: "black"}
+            })}
+            >
+              {children}
+            </AppShell>
+          </body>
+        </Providers>
       </MantineProvider>
     </html>
   )
